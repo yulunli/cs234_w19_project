@@ -13,6 +13,6 @@ for dose in df["Classified Dose of Warfarin"]:
     if dose == 1:
         correct += 1
 
-print("Correct: ", correct)
-print("Total: ", total)
-print("Performance: ", 1.0 * correct / total)
+print("Correct:", correct)
+print("Total:", total)
+print("Performance:", 1.0 * correct / total)
