@@ -1,3 +1,9 @@
+'''
+Bucketize the Therapeutic Dose of Warfarin of the data.
+<21: 0
+21-49: 1
+>49: 2
+'''
 import pandas as pd
 
 dataFrame = pd.read_csv("data/warfarin.csv")
