@@ -4,7 +4,7 @@ Evaluate the performance of fixed-dosage baseline.
 
 import pandas as pd
 
-df = pd.read_csv("data/warfarin-discrete.csv")
+df = pd.read_csv("data/warfarin_discrete.csv")
 
 correct = 0
 total = 0

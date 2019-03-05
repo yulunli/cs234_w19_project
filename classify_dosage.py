@@ -1,9 +1,3 @@
-'''
-Bucketize the Therapeutic Dose of Warfarin of the data.
-<21: 0
-21-49: 1
->49: 2
-'''
 import pandas as pd
 
 dataFrame = pd.read_csv("data/warfarin.csv")
@@ -18,4 +12,4 @@ for dose in dataFrame["Therapeutic Dose of Warfarin"]:
         classified_dose.append(1)
 dataFrame["Classified Dose of Warfarin"] = classified_dose
 
-dataFrame.to_csv("data/warfarin-discrete.csv")
+dataFrame.to_csv("data/warfarin_discrete.csv")
