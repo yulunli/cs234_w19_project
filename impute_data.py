@@ -5,7 +5,7 @@ import pandas as pd
 
 df = pd.read_csv("data/warfarin_discrete.csv")
 
-rs9923231 = df["VKORC1 -1639 consensus"]
+rs9923231 = df["VKORC1 -1639 consensus"].values.tolist()
 race = df["Race"]
 rs2359612 = df["VKORC1 2255 consensus"]
 rs9934438 = df["VKORC1 1173 consensus"]
