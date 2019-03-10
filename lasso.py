@@ -90,12 +90,15 @@ for t in range(1, T + 1):
                 pi_t = a
                 y_ = y_hat
     pi_hist.append(pi_t)
+    reward = -1
+    if pi_t == labels[t - 1]:
+        reward = 0
     # update s
     if t in Tau:
         Tau_i[pi_t].append(X_t)
-        Y_Tau[pi_t].append(labels[t - 1])
+        Y_Tau[pi_t].append(reward)
     S_i[pi_t].append(X_t)
-    Y_S[pi_t].append(labels[t - 1])
+    Y_S[pi_t].append(reward)
     lambda_2 = lambda_2_0 * np.sqrt((np.log(t) + np.log(d)) / t)
     # play pi_t
     if pi_t == labels[t - 1]:
