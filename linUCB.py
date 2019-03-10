@@ -28,7 +28,7 @@ for i in range(len(rs8050894)):
     row = rs8050894[i]
     if row == "C/C":
         features[i] += [1,0,0,0]
-    elif row == "A/G":
+    elif row == "C/G":
         features[i] += [0,1,0,0]
     elif row == "G/G":
         features[i] += [0,0,1,0]
@@ -38,7 +38,7 @@ features = np.array(features)
 
 As = [np.identity(d) for _ in range(K)]
 bs = [np.zeros(d) for _ in range(K)]
-alpha = 0.7 # hyperparameter
+alpha = 0.6 # hyperparameter
 total = 0
 correct = 0
 for f, y in zip(features, labels):
