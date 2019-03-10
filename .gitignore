@@ -106,3 +106,4 @@ venv.bak/
 *.pdf
 *.zip
 data/
+*.swp

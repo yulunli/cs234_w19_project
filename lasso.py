@@ -58,7 +58,7 @@ for i in range(1, K + 1):
 
 regret = []
 pi_hist = []
-fit_intercept = True
+fit_intercept = False
 for t in range(1, T + 1):
     # print('-------------------------------')
     # print(t)
