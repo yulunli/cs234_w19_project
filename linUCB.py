@@ -11,8 +11,9 @@ labels = df["Classified Dose of Warfarin"]
 # using 1 feature for now
 rs9923231 = df["VKORC1 -1639 consensus"]
 rs8050894 = df["VKORC1 1542 consensus"]
+cyp2c9 = df["CYP2C9 consensus"]
 # features: [5700, 4]
-d = 8
+d = 15
 features = []
 for row in rs9923231:
     if row == "A/A":
@@ -34,11 +35,28 @@ for i in range(len(rs8050894)):
         features[i] += [0,0,1,0]
     else:
         features[i] += [0,0,0,1]
+
+for i in range(len(cyp2c9)):
+    row = cyp2c9[i]
+    if row == "*1/*1":
+        features[i] += [1,0,0,0,0,0,0]
+    elif row == "*1/*2":
+        features[i] += [0,1,0,0,0,0,0]
+    elif row == "*1/*3":
+        features[i] += [0,0,1,0,0,0,0]
+    elif row == "*2/*2":
+        features[i] += [0,0,0,1,0,0,0]
+    elif row == "*2/*3":
+        features[i] += [0,0,0,0,1,0,0]
+    elif row == "*3/*3":
+        features[i] += [0,0,0,0,0,1,0]
+    else:
+        features[i] += [0,0,0,0,0,0,1]
 features = np.array(features)
 
 As = [np.identity(d) for _ in range(K)]
 bs = [np.zeros(d) for _ in range(K)]
-alpha = 0.6 # hyperparameter
+alpha = 0.8 # hyperparameter
 total = 0
 correct = 0
 for f, y in zip(features, labels):
