@@ -3,6 +3,7 @@ linUCB algorithm based on http://rob.schapire.net/papers/www10.pdf
 '''
 import pandas as pd
 import numpy as np
+import util
 
 K = 3
 
@@ -69,6 +70,7 @@ def main():
         fraction = []
         As = [np.identity(d) for _ in range(K)]
         bs = [np.zeros(d) for _ in range(K)]
+        regret.append(0)
         fraction.append(evaluate(As, bs)) # performance without training
         total = 0
         correct = 0
@@ -96,6 +98,9 @@ def main():
         print("Correct:", correct)
         print("Total:", total)
         print("Performance:", 1.0 * correct / total)
+
+    # plot
+    util.plot(range(0, 5001, 500), regrets, fractions)
 
 # evaluation of fraction of incorrect dosing decisions with fixed weights
 def evaluate(As, bs):
