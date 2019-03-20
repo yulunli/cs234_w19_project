@@ -13,8 +13,8 @@ labels = df["Classified Dose of Warfarin"]
 rs9923231 = df["VKORC1 -1639 consensus"]
 rs8050894 = df["VKORC1 1542 consensus"]
 cyp2c9 = df["CYP2C9 consensus"]
-# features: [5700, 15]
-d = 15
+# features: [5700, 16], last index is bias
+d = 16
 features = []
 for row in rs9923231:
     if row == "A/A":
@@ -53,6 +53,9 @@ for i in range(len(cyp2c9)):
         features[i] += [0,0,0,0,0,1,0]
     else:
         features[i] += [0,0,0,0,0,0,1]
+
+for feature in features:
+    feature.append(1)
 features = np.array(features)
 
 data = np.array(list(zip(features, labels)))
@@ -89,7 +92,7 @@ def main():
             As[a] += np.matmul(f[:, None], f[None, :])
             bs[a] += r * f
             # evaluate every 500 examples
-            if total % 500 == 0:
+            if total % 250 == 0:
                 regret.append(total - correct)
                 fraction.append(evaluate(As, bs))
         print(fraction)
@@ -100,7 +103,7 @@ def main():
         print("Performance:", 1.0 * correct / total)
 
     # plot
-    util.plot(range(0, 5001, 500), regrets, fractions)
+    util.plot(range(0, 5001, 250), regrets, fractions)
 
 # evaluation of fraction of incorrect dosing decisions with fixed weights
 def evaluate(As, bs):

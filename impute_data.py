@@ -37,6 +37,6 @@ for i in range(len(rs9923231)):
             final_empty += 1
 
 df["VKORC1 -1639 consensus"] = rs9923231
-df.to_csv("data/warfarin_imputed.csv", index=False)
+df.to_csv("data/warfarin_imputed.csv")
 print("Initial empty:", initial_empty)
 print("Final empty:", final_empty)
