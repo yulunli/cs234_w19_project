@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import util
 
-np.random.seed(1)
+np.random.seed(2)
 K = 3
 
 df = pd.read_csv("data/warfarin_imputed.csv")
@@ -89,7 +89,8 @@ def main():
                 correct += 1
             else:
                 r = 0
-            Bs[a] += np.dot(f, f)
+            # Bs[a] += np.matmul(f, f.T)
+            Bs[a] += np.expand_dims(f, 1) * np.expand_dims(f, 0)
             fs[a] += f * r
             mu_hats[a] = np.dot(np.linalg.inv(Bs[a]), fs[a])
             # evaluate every 500 examples
@@ -111,12 +112,12 @@ def evaluate(mu_hats, Bs):
     incorrect = 0
     for f, y in test:
         mu_ts = [np.random.multivariate_normal(mu_hats[i], v_sq * np.linalg.inv(Bs[i])) for i in range(K)]
-        expects = [f * mu_ts[i] for i in range(K)]
+        expects = [np.dot(f.T, mu_ts[i]) for i in range(K)]
         # a: chosen arm
         a = np.argmax(expects)
         if a != y:
             incorrect += 1
-    return 1.0 * incorrect / 700
+    return 1.0 * incorrect / test.shape[0]
 
 if __name__ == '__main__':
     main()
