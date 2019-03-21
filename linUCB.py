@@ -62,7 +62,7 @@ data = np.array(list(zip(features, labels)))
 # split into train and test
 np.random.shuffle(data)
 train, test = data[:5000, :], data[5000:, :]
-alpha = 0.5 # hyperparameter
+alpha = 0.7 # hyperparameter
 
 def main():
     regrets = []
@@ -116,7 +116,7 @@ def evaluate(As, bs):
         a = np.argmax(ps)
         if a != y:
             incorrect += 1
-    return 1.0 * incorrect / 700
+    return 1.0 * incorrect / len(test)
 
 if __name__ == '__main__':
     main()
