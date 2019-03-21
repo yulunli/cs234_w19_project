@@ -16,11 +16,15 @@ def plot(x, regrets, fractions):
     fractions = np.array(fractions)
 
     plt.figure(1)
+    plt.xlabel('t')
+    plt.ylabel('Regret')
     regret_mean = np.mean(regrets, axis=0)
     regret_err = np.stack((regret_mean - np.min(regrets, axis=0), np.max(regrets, axis=0) - regret_mean))
     plt.errorbar(x, regret_mean, yerr=regret_err)
 
     plt.figure(2)
+    plt.xlabel('t')
+    plt.ylabel('Fraction of Correct Dosage')
     fraction_mean = np.mean(fractions, axis=0)
     fraction_err = np.stack((fraction_mean - np.min(fractions, axis=0), np.max(fractions, axis=0) - fraction_mean))
     plt.errorbar(x, fraction_mean, yerr=fraction_err)

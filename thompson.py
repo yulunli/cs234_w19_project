@@ -3,9 +3,9 @@ TS algorithm based on http://proceedings.mlr.press/v28/agrawal13.pdf
 '''
 import pandas as pd
 import numpy as np
-# import util
+import util
 
-np.random.seed(0)
+np.random.seed(1)
 K = 3
 
 df = pd.read_csv("data/warfarin_imputed.csv")
@@ -15,7 +15,7 @@ rs9923231 = df["VKORC1 -1639 consensus"]
 rs8050894 = df["VKORC1 1542 consensus"]
 cyp2c9 = df["CYP2C9 consensus"]
 # features: [5700, 15]
-d = 15
+d = 16
 features = []
 for row in rs9923231:
     if row == "A/A":
@@ -54,6 +54,9 @@ for i in range(len(cyp2c9)):
         features[i] += [0,0,0,0,0,1,0]
     else:
         features[i] += [0,0,0,0,0,0,1]
+
+for feature in features:
+    feature.append(1)
 features = np.array(features)
 
 data = np.array(list(zip(features, labels)))
@@ -101,7 +104,7 @@ def main():
         print("Performance:", 1.0 * correct / total)
 
     # plot
-    # util.plot(range(0, 5001, 500), regrets, fractions)
+    util.plot(range(0, 5001, 500), regrets, fractions)
 
 # evaluation of fraction of incorrect dosing decisions with fixed weights
 def evaluate(mu_hats, Bs):
