@@ -24,7 +24,7 @@ def plot(x, regrets, fractions):
 
     plt.figure(2)
     plt.xlabel('t')
-    plt.ylabel('Fraction of Correct Dosage')
+    plt.ylabel('Fraction of Incorrect Dosage')
     fraction_mean = np.mean(fractions, axis=0)
     fraction_err = np.stack((fraction_mean - np.min(fractions, axis=0), np.max(fractions, axis=0) - fraction_mean))
     plt.errorbar(x, fraction_mean, yerr=fraction_err)
