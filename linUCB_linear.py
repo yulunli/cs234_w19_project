@@ -6,8 +6,10 @@ import numpy as np
 import util
 
 K = 3
+classToMean = {0: 7, 1: 35, 2: 63}
 
 df = pd.read_csv("data/warfarin_imputed.csv")
+values = df["Therapeutic Dose of Warfarin"]
 labels = df["Classified Dose of Warfarin"]
 # 3 features
 rs9923231 = df["VKORC1 -1639 consensus"]
@@ -58,11 +60,11 @@ for feature in features:
     feature.append(1)
 features = np.array(features)
 
-data = np.array(list(zip(features, labels)))
+data = np.array(list(zip(features, values, labels)))
 # split into train and test
 np.random.shuffle(data)
 train, test = data[:5000, :], data[5000:, :]
-alpha = 0.7 # hyperparameter
+alpha = 0.4 # hyperparameter
 
 def main():
     regrets = []
@@ -77,25 +79,22 @@ def main():
         fraction.append(evaluate(As, bs)) # performance without training
         total = 0
         correct = 0
-        for f, y in train:
+        for f, val, y in train:
             total += 1
             invAs = [np.linalg.inv(As[i]) for i in range(K)]
             thetas = [np.matmul(invAs[i], bs[i]) for i in range(K)]
             ps = [np.dot(thetas[i], f) + alpha * np.sqrt(np.dot(np.squeeze(np.matmul(f[None, :], invAs[i])), f)) for i in range(K)]
             # a: chosen arm
             a = np.argmax(ps)
+            r = -np.absolute(classToMean[a] - val)
             if a == y:
-                r = 0
                 correct += 1
-            else:
-                r = -1
             As[a] += np.matmul(f[:, None], f[None, :])
             bs[a] += r * f
             # evaluate every 500 examples
             if total % 250 == 0:
                 regret.append(total - correct)
                 fraction.append(evaluate(As, bs))
-        print(fraction)
         regrets.append(regret)
         fractions.append(fraction)
         print("Correct:", correct)
@@ -110,7 +109,7 @@ def evaluate(As, bs):
     invAs = [np.linalg.inv(As[i]) for i in range(K)]
     thetas = [np.matmul(invAs[i], bs[i]) for i in range(K)]
     incorrect = 0
-    for f, y in test:
+    for f, _, y in test:
         ps = [np.dot(thetas[i], f) + alpha * np.sqrt(np.dot(np.squeeze(np.matmul(f[None, :], invAs[i])), f)) for i in range(K)]
         # a: chosen arm
         a = np.argmax(ps)
