@@ -62,7 +62,7 @@ data = np.array(list(zip(features, labels)))
 # split into train and test
 np.random.shuffle(data)
 train, test = data[:5000, :], data[5000:, :]
-alpha = 0.8 # hyperparameter
+alpha = 0.5 # hyperparameter
 
 def main():
     regrets = []
