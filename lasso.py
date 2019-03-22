@@ -104,7 +104,7 @@ def main():
         regret = []
         fraction = []
         regret.append(0)
-        fit_intercept = False
+        fit_intercept = True
         fraction.append(1.)
         pi_hist = []
         total = 0
@@ -203,6 +203,7 @@ def evaluate(lambda_1, fit_intercept, Tau_i, Y_Tau, h, lambda_2, S_i, Y_S):
             y_hat = model_2.predict([f])[0]
             if y_hat > y_:
                 pi_t = a
+                y_ = y_hat
         # a: chosen arm
         if pi_t != y:
             incorrect += 1
